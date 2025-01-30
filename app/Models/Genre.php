@@ -10,5 +10,8 @@ class Genre extends Model
     {
         return $this->belongsToMany(Book::class, 'book_genre');
     }
+    public function users(){
+        return $this->hasManyThrough(User::class,Book::class,'genre_id','id','id','book_id')->distinct();
+    }
     
 }
