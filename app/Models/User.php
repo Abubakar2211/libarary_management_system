@@ -23,8 +23,18 @@ class User extends Authenticatable
         'password',
     ];
 
-    public function profile(){
+    public function profile()
+    {
         return $this->hasOne(Profile::class);
+    }
+    public function publisher()
+    {
+        return $this->hasOneThrough(Publisher::class, Book::class, 'user_id', 'id', 'id', 'publisher_id');
+    }
+
+    public function books()
+    {
+        return $this->hasMany(Book::class);
     }
 
     /**
@@ -36,6 +46,7 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
+
 
     /**
      * Get the attributes that should be cast.

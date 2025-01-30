@@ -12,18 +12,29 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::with('profile')->get();
+        // $users = User::with('profile')->get();
 
-        $data = $users->map(function ($user) {
-            return [
+        // $data = $users->map(function ($user) {
+        //     return [
+        //         $user->name,
+        //         $user->email,
+        //         $user->profile->bio,
+        //         $user->profile->phone_number,
+        //     ];
+        // });
+
+        // return $data;
+        //================================================= 
+        $users = User::with('publisher')->get();
+        $data = $users->map(function($user){
+           return[ 
                 $user->name,
                 $user->email,
-                $user->profile->bio,
-                $user->profile->phone_number,
+                $user->publisher->name
             ];
         });
-
         return $data;
+
     }
 
     /**

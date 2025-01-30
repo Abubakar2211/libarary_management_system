@@ -2,39 +2,32 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Book;
+use App\Models\Publisher;
 use Illuminate\Http\Request;
 
-class BookController extends Controller
+class PublisherController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        // $books = Book::with('author')->get();
-
-        // $data = $books->map(function($book){
-        //     return [
-        //        'Title' => $book->title,
-        //        'Author Name' => $book->author->name,
-        //     ];
-        // }); 
-        // return $data;
-        //================================================= 
-        // $books = Book::with(['genres','author'])->get();
-        // $formattedBooks = $books->map(function($book){
-        //     return[
-        //         'id' => $book->id,
-        //         'name' => $book->title,
-        //         'author_name' => $book->author->name,
-        //         'genres' => $book->genres->pluck('name')
-        //     ];
-        // });  
-        // return $formattedBooks;
-        //================================================= 
-        
-
+        $publishers = Publisher::with('users')->get();
+    
+        $data = $publishers->map(function ($publisher) {
+            return [
+                'publisher' => $publisher->name,
+                'users' => $publisher->users->unique()->map(function ($user) {
+                    return [
+                        'id' => $user->id,
+                        'name' => $user->name,
+                        'email' => $user->email
+                    ];
+                })->values()
+            ];
+        });
+    
+        return response()->json($data); 
     }
 
     /**
